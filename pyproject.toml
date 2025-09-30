@@ -1,5 +1,6 @@
 [project]
 name = "cumulus-unit-test-utilities"
+version = "0.1.0"
 
 [tool.isort]
 profile = "black"
