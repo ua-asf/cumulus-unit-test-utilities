@@ -1,3 +1,6 @@
+[project]
+name = "cumulus-unit-test-utilities"
+
 [tool.isort]
 profile = "black"
 
