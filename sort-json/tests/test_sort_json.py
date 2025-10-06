@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from cumulus_unit_test_utilities.sort_json.sort_json import sort_json_recursively, process_json_file
+from sort_json.sort_json import sort_json_recursively, process_json_file
 
 
 @pytest.fixture

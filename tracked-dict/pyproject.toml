@@ -1,11 +1,10 @@
 [project]
-name = "cumulus-unit-test-utilities"
+name = "tracked-dict"
 version = "0.1.0"
 authors = [
   { name="Gabriel Clark", email="gjclark@alaska.edu" },
 ]
-description = "A variety of unit test utilities that I&A has created for unit testing."
-readme = "README.md"
+description = "Overrides the standard dict class to keep track of key access"
 requires-python = ">=3.11"
 
 [build-system]
@@ -22,5 +21,12 @@ line-length = 120
 # Add the `line-too-long` rule to the enforced rule set.
 extend-select = ["E501"]
 
-[tool.pytest.ini_options]
-pythonpath = ["src"]
+[dependency-groups]
+dev = [
+    "pytest~=8.2",
+]
+
+[tool.uv.build-backend]
+# Without this it will look for tracked_dict in src/
+module-name = "tracked_dict"
+module-root = ""
