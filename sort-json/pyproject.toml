@@ -34,3 +34,6 @@ dev = [
 # Without this it will look for sort_json in src/
 module-name = "sort_json"
 module-root = ""
+
+[project.scripts]
+sort_json = "sort_json.sort_json:main"

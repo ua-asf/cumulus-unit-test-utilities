@@ -7,25 +7,19 @@ from sort_json.sort_json import sort_json_recursively, process_json_file
 
 @pytest.fixture
 def unsorted_json_from_dict():
-    return json.loads(
-        """
-            {
-                "z": 1,
-                "a": {
-                    "d": 4,
-                    "b": 2
-                },
-                "m": [3, 2, 1]
-            }
-        """
-    )
+    return {
+        "z": 1,
+        "a": {
+            "d": 4,
+            "b": 2
+        },
+        "m": [3, 2, 1]
+    }
 
 
 @pytest.fixture
 def sorted_json_from_dict():
-    return json.loads(
-        """
-            {
+    return {
                 "a": {
                     "b": 2,
                     "d": 4
@@ -33,38 +27,28 @@ def sorted_json_from_dict():
                 "m": [3, 2, 1],
                 "z": 1
             }
-        """
-    )
 
 
 @pytest.fixture
 def unsorted_json_from_list():
-    return json.loads(
-        """
-            [
-                {"foo": 1},
-                {"bar": 2},
-                {"baz": 3},
-                {"qux": 4},
-                {"corge": 5}
-            ]
-        """
-    )
+    return [
+        {"foo": 1},
+        {"bar": 2},
+        {"baz": 3},
+        {"qux": 4},
+        {"corge": 5}
+    ]
 
 
 @pytest.fixture
 def sorted_json_from_list():
-    return json.loads(
-        """
-            [
-                {"bar": 2},
-                {"baz": 3},
-                {"corge": 5},
-                {"foo": 1},
-                {"qux": 4}
-            ]
-        """
-    )
+    return [
+        {"bar": 2},
+        {"baz": 3},
+        {"corge": 5},
+        {"foo": 1},
+        {"qux": 4}
+    ]
 
 
 def test_sort_json_recursively(
@@ -78,7 +62,7 @@ def test_sort_json_recursively(
 
     assert generated_sort_from_dict == sorted_json_from_dict
     # I'm writing this assertion to show a potential gotcha when sorting the JSON with this function.
-    assert not generated_sort_from_list == sorted_json_from_list
+    assert generated_sort_from_list != sorted_json_from_list
 
 
 def test_process_json_file(unsorted_json_from_dict, unsorted_json_from_list, data_path):
