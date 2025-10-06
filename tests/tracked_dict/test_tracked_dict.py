@@ -1,5 +1,5 @@
 import pytest
-from tracked_dict.tracked_dict import TrackedDict
+from cumulus_unit_test_utilities.tracked_dict.tracked_dict import TrackedDict
 
 
 def test_getitem_tracks_access():

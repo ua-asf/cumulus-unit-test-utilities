@@ -1,6 +1,16 @@
 [project]
 name = "cumulus-unit-test-utilities"
 version = "0.1.0"
+authors = [
+  { name="Gabriel Clark", email="gjclark@alaska.edu" },
+]
+description = "A variety of unit test utilities that I&A has created for unit testing."
+readme = "README.md"
+requires-python = ">=3.11"
+
+[build-system]
+requires = ["uv_build >= 0.8.22, <0.9.0"]
+build-backend = "uv_build"
 
 [tool.isort]
 profile = "black"
@@ -11,3 +21,6 @@ line-length = 120
 [tool.ruff.lint]
 # Add the `line-too-long` rule to the enforced rule set.
 extend-select = ["E501"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
