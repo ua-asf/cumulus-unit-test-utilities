@@ -1,6 +1,6 @@
 `sort_json` sorts a JSON file or directory of JSON files alphabetically and recursively by keys. It edits the files in place ensuring that they will be spaced with 4 indentations and end with a single blank line.
 
-```aiignore
+```
 $ sort_json --help
 usage: sort_json [-h] [--dry-run] [--print-diff] path
 
