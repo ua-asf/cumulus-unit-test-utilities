@@ -84,7 +84,7 @@ def process_path(pattern, dry_run=False, print_diff=False) -> bool:
         if os.path.isfile(file_path) and file_path.endswith(".json"):
             changes_detected.add(process_json_file(file_path, dry_run, print_diff))
 
-    return True if True in changes_detected else False
+    return True in changes_detected
 
 
 def main():
