@@ -1,11 +1,11 @@
+import argparse
 import difflib
 import glob
+import json
 import os
 import sys
-import json
-import argparse
-from colorama import Fore, Style
 
+from colorama import Fore, Style
 
 # Python supported emojis can be found here
 # https://carpedm20.github.io/emoji/

@@ -1,6 +1,6 @@
 import pytest
 
-from sort_json.sort_json import sort_json_recursively, process_json_file
+from sort_json.sort_json import process_json_file, sort_json_recursively
 
 
 @pytest.fixture

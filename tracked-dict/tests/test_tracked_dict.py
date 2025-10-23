@@ -1,4 +1,5 @@
 import pytest
+
 from tracked_dict.tracked_dict import TrackedDict
 
 
