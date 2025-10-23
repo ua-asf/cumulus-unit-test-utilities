@@ -1,5 +1,3 @@
-import json
-
 import pytest
 
 from sort_json.sort_json import sort_json_recursively, process_json_file
@@ -11,22 +9,22 @@ def unsorted_json_from_dict():
         "z": 1,
         "a": {
             "d": 4,
-            "b": 2
+            "b": 2,
         },
-        "m": [3, 2, 1]
+        "m": [3, 2, 1],
     }
 
 
 @pytest.fixture
 def sorted_json_from_dict():
     return {
-                "a": {
-                    "b": 2,
-                    "d": 4
-                },
-                "m": [3, 2, 1],
-                "z": 1
-            }
+        "a": {
+            "b": 2,
+            "d": 4,
+        },
+        "m": [3, 2, 1],
+        "z": 1,
+    }
 
 
 @pytest.fixture
@@ -36,7 +34,7 @@ def unsorted_json_from_list():
         {"bar": 2},
         {"baz": 3},
         {"qux": 4},
-        {"corge": 5}
+        {"corge": 5},
     ]
 
 
@@ -47,7 +45,7 @@ def sorted_json_from_list():
         {"baz": 3},
         {"corge": 5},
         {"foo": 1},
-        {"qux": 4}
+        {"qux": 4},
     ]
 
 
