@@ -11,7 +11,7 @@ from colorama import Fore, Style
 # https://carpedm20.github.io/emoji/
 
 
-def sort_json_recursively(obj: dict | str) -> dict | str:
+def sort_json_recursively(obj: dict | list) -> dict | list:
     if isinstance(obj, dict):
         return {k: sort_json_recursively(obj[k]) for k in sorted(obj)}
     elif isinstance(obj, list):
