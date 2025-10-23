@@ -36,4 +36,4 @@ module-name = "sort_json"
 module-root = ""
 
 [project.scripts]
-sort_json = "sort_json.sort_json:main"
+sort-json = "sort_json.sort_json:main"
