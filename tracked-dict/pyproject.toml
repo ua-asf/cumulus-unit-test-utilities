@@ -1,0 +1,32 @@
+[project]
+name = "tracked-dict"
+version = "0.1.0"
+authors = [
+  { name="Gabriel Clark", email="gjclark@alaska.edu" },
+]
+description = "Overrides the standard dict class to keep track of key access"
+requires-python = ">=3.11"
+
+[build-system]
+requires = ["uv_build >= 0.8.22, <0.9.0"]
+build-backend = "uv_build"
+
+[tool.isort]
+profile = "black"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+# Add the `line-too-long` rule to the enforced rule set.
+extend-select = ["E501"]
+
+[dependency-groups]
+dev = [
+    "pytest~=8.2",
+]
+
+[tool.uv.build-backend]
+# Without this it will look for tracked_dict in src/
+module-name = "tracked_dict"
+module-root = ""

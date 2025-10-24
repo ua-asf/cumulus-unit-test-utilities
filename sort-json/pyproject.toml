@@ -1,0 +1,39 @@
+[project]
+name = "sort-json"
+version = "0.1.0"
+authors = [
+  { name="Gabriel Clark", email="gjclark@alaska.edu" },
+]
+description = "`sort_json` sorts a JSON file or directory of JSON files alphabetically and recursively by keys."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "colorama~=0.4",
+]
+
+[build-system]
+requires = ["uv_build >= 0.8.22, <0.9.0"]
+build-backend = "uv_build"
+
+[tool.isort]
+profile = "black"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+# Add the `line-too-long` rule to the enforced rule set.
+extend-select = ["E501"]
+
+[dependency-groups]
+dev = [
+    "pytest~=8.2",
+]
+
+[tool.uv.build-backend]
+# Without this it will look for sort_json in src/
+module-name = "sort_json"
+module-root = ""
+
+[project.scripts]
+sort-json = "sort_json.sort_json:main"
