@@ -4,6 +4,7 @@ import glob
 import json
 import os
 import sys
+from typing import Any, Optional
 
 from colorama import Fore, Style
 
@@ -11,22 +12,32 @@ from colorama import Fore, Style
 # https://carpedm20.github.io/emoji/
 
 
-def sort_json_recursively(obj: dict | list) -> dict | list:
+def sort_json_recursively(obj: Any, sort_rules: dict[str, str] | None = None, parent_key: str | None = None) -> Any:
+    sort_rules = sort_rules or {}
+
     if isinstance(obj, dict):
-        return {k: sort_json_recursively(obj[k]) for k in sorted(obj)}
+        sorted_dict = {}
+        for k in sorted(obj):
+            v = obj[k]
+            sorted_dict[k] = sort_json_recursively(v, sort_rules, parent_key=k)
+        return sorted_dict
     elif isinstance(obj, list):
-        return [sort_json_recursively(elem) for elem in obj]
+        # Sort if the parent key matches a sort rule
+        if parent_key in sort_rules:
+            sort_key = sort_rules[parent_key]
+            obj = sorted(obj, key=lambda x: x[sort_key])
+        return [sort_json_recursively(elem, sort_rules) for elem in obj]
     else:
         return obj
 
 
-def process_json_file(file_path, dry_run=False, print_diff=False) -> bool:
+def process_json_file(file_path, dry_run=False, print_diff=False, sort_lists_by: Optional[str] = None) -> bool:
     change_detected = False
     try:
         with open(file_path, "r", encoding="utf-8") as f:
             original_data = json.load(f)
 
-        sorted_data = sort_json_recursively(original_data)
+        sorted_data = sort_json_recursively(original_data, sort_lists_by)
         new_json_string = json.dumps(sorted_data, indent=4, ensure_ascii=False)
 
         if not new_json_string.endswith("\n"):
@@ -72,7 +83,7 @@ def process_json_file(file_path, dry_run=False, print_diff=False) -> bool:
     return change_detected
 
 
-def process_path(pattern, dry_run=False, print_diff=False) -> bool:
+def process_path(pattern, dry_run=False, print_diff=False, sort_lists_by: Optional[str] = None) -> bool:
     changes_detected = set()
     matched_files = glob.glob(pattern, recursive=True)
 
@@ -82,7 +93,7 @@ def process_path(pattern, dry_run=False, print_diff=False) -> bool:
 
     for file_path in matched_files:
         if os.path.isfile(file_path) and file_path.endswith(".json"):
-            changes_detected.add(process_json_file(file_path, dry_run, print_diff))
+            changes_detected.add(process_json_file(file_path, dry_run, print_diff, sort_lists_by))
 
     return any(changes_detected)
 
@@ -93,11 +104,16 @@ def main():
     parser.add_argument(
         "--dry-run", action="store_true", help="Show which files would be changed without modifying them"
     )
+    parser.add_argument(
+        "--sort-rules", type=str, help='JSON string of rules, e.g. \'{"Candies": "name", "Vegetables": "type"}\''
+    )
     parser.add_argument("--print-diff", action="store_true", help="Print diff without performing changes")
 
     args = parser.parse_args()
     print(f"Checking path: {args.path}")
-    changes_detected = process_path(args.path, dry_run=args.dry_run, print_diff=args.print_diff)
+    changes_detected = process_path(
+        args.path, dry_run=args.dry_run, print_diff=args.print_diff, sort_lists_by=json.loads(args.sort_rules)
+    )
     if args.dry_run and changes_detected:
         print("\N{HEAVY EXCLAMATION MARK SYMBOL} Dry run detected improperly formatted JSON files.")
         print("-" * 103)
