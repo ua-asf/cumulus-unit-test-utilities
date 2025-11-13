@@ -11,7 +11,20 @@ def unsorted_json_from_dict():
             "d": 4,
             "b": 2,
         },
-        "m": [3, 2, 1],
+        "candies": [
+            {
+                "name": "good candy",
+                "quantity": 100,
+            },
+            {
+                "name": "mediocre candy",
+                "quantity": 50,
+            },
+            {
+                "name": "bad candy",
+                "quantity": 2,
+            },
+        ],
     }
 
 
@@ -22,7 +35,20 @@ def sorted_json_from_dict():
             "b": 2,
             "d": 4,
         },
-        "m": [3, 2, 1],
+        "candies": [
+            {
+                "name": "bad candy",
+                "quantity": 2,
+            },
+            {
+                "name": "good candy",
+                "quantity": 100,
+            },
+            {
+                "name": "mediocre candy",
+                "quantity": 50,
+            },
+        ],
         "z": 1,
     }
 
@@ -55,7 +81,7 @@ def test_sort_json_recursively(
     sorted_json_from_dict,
     sorted_json_from_list,
 ):
-    generated_sort_from_dict = sort_json_recursively(unsorted_json_from_dict)
+    generated_sort_from_dict = sort_json_recursively(unsorted_json_from_dict, {"candies": "name"})
     generated_sort_from_list = sort_json_recursively(unsorted_json_from_list)
 
     assert generated_sort_from_dict == sorted_json_from_dict
