@@ -33,9 +33,13 @@ def test_assert_all_keys_accessed_passes():
 
 
 def test_assert_all_keys_accessed_fails():
-    d = TrackedDict(p=1, q=2)
+    d = TrackedDict({
+        "p": 1,
+        "missing": 1,
+        "also_not_accessed": 1,
+    })
     _ = d["p"]
-    with pytest.raises(AssertionError):
+    with pytest.raises(AssertionError, match="Unaccessed keys: 'also_not_accessed', 'missing'"):
         d.assert_all_keys_accessed()
 
 
