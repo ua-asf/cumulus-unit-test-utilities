@@ -15,3 +15,6 @@ class TrackedDict(dict):
     def assert_all_keys_accessed(self):
         all_keys = set(self.keys())
         assert self.accessed_keys >= all_keys
+
+    def foo(self):
+        pass
