@@ -14,4 +14,6 @@ class TrackedDict(dict):
 
     def assert_all_keys_accessed(self):
         all_keys = set(self.keys())
-        assert self.accessed_keys >= all_keys
+        missing = all_keys - self.accessed_keys
+        # Sort the output for readability
+        assert not missing, f"Unaccessed keys: {', '.join(repr(k) for k in sorted(missing))}"

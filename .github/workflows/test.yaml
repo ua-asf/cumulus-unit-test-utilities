@@ -1,6 +1,7 @@
 name: Unit Test
 permissions:
   contents: read
+  checks: write
 
 on:
   push:
@@ -24,3 +25,44 @@ jobs:
         pip install tox~=4.15 coverage
 
     - run: tox
+
+    - name: Report Coverage Status
+      uses: actions/github-script@v7
+      env:
+        SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+      with:
+        script: |
+          let report = async (covFile, checkName) => {
+            const fs = require('fs')
+            const covData = fs.readFileSync(covFile)
+            var coverage = JSON.parse(covData)
+
+            const { SHA } = process.env
+
+            let coverageReport = '';
+            await exec.exec(
+              'coverage',
+              ['report', '--show-missing', '--format=markdown'],
+              {
+                listeners: {
+                  stdout: (data) => {
+                    coverageReport += data.toString()
+                  }
+                }
+              },
+            )
+
+            github.rest.checks.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: checkName,
+              head_sha: SHA,
+              conclusion: 'success',
+              output: {
+                title: `Total coverage: ${coverage.totals.percent_covered_display}%`,
+                summary: coverageReport,
+              },
+            })
+          }
+
+          await report('tracked-dict.json', 'tracked-dict Code Coverage')
